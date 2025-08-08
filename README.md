@@ -1,8 +1,46 @@
 # Guia de Desenvolvimento — Rotas de Cadastro Seguro (bcrypt + JWT)
 
-Este guia explica passo a passo como **implementar rotas seguras de cadastro e autenticação** em um projeto Node.js + Express usando **bcrypt** para hashing de senhas e **JSON Web Tokens (JWT)** para autenticação baseada em token. Ele também traz dicas de segurança, exemplos de middlewares, e um exemplo de documentação OpenAPI/Swagger.
+ Este guia explica passo a passo como **implementar rotas seguras de cadastro e autenticação** em um projeto Node.js + Express usando **bcrypt** para hashing de senhas e **JSON Web Tokens (JWT)** para autenticação baseada em token. Ele também traz dicas de segurança, exemplos de middlewares, e um exemplo de documentação OpenAPI/Swagger.
 
 ---
+
+## Introdução – Por que segurança no back-end é importante?
+
+ Dados de usuários (como senhas, e-mails e informações pessoais) são alvo de ataques constantes. Sem proteção, qualquer invasor que tenha acesso ao banco de dados pode visualizar todas as senhas em texto puro. Boas práticas de segurança como hash de senhas e autenticação baseada em tokens são essenciais para proteger dados e evitar acessos não autorizados.
+
+# O que é o bcrypt e como será utilizado?
+
+ O bcrypt é uma biblioteca para gerar hashes seguros de senhas, tornando-as ilegíveis no banco de dados.No entanto primeiramente entender o conceito de hash, que nada mais é que um processo unidirecional que transforma uma senha em uma sequência única e irreversível. Mesmo que o banco seja invadido, não será possível obter a senha original a partir do hash. O bcrypt aplica o salt, que adiciona aleatoriedade ao hash, dificultando ataques como rainbow tables.
+
+Utilizaremos:
+```js
+ bcrypt.hash() → Para criar o hash antes de salvar no banco
+ bcrypt.compare() → Para verificar se a senha informada pelo usuário corresponde ao hash armazenado
+```
+
+##### Veja uma explicação e implementação passo a passo do bcrypt em:
+
+* [Implementação passo a passo do bcrypt](/bcrypt_na_pratica)
+
+
+# O que é JWT e como será utilizado?
+
+  O JWT (JSON Web Token) é um padrão para autenticação e troca segura de informações entre cliente e servido.
+  sendo composto por três partes:
+  - Header (tipo do token e algoritmo usado)
+  - Payload (informações do usuário, como id ou email)
+  - Signature (garante que o token não foi alterado)
+
+  Após login em um sistema qualquer o servidor gera um token JWT que será enviado pelo cliente em cada requisição, permitindo acesso a rotas protegidas sem precisar reenviar login e senha a cada vez.
+
+Utilizaremos:
+```js
+ jwt.sign() → para gerar o token
+ jwt.verify() → para validar o token recebido do cliente
+```
+
+* [Implementação passo a passo do JWT](/jwt_na_pratica)
+
 
 ## Objetivo
 
@@ -17,7 +55,7 @@ Criar rotas REST seguras para:
 ## Dependências sugeridas
 
 ```bash
-npm install express bcryptjs jsonwebtoken dotenv express-validator
+npm install express bcryptjs jsonwebtoken dotenv
 # opcional para documentação
 npm install swagger-ui-express swagger-jsdoc
 ```
@@ -36,7 +74,7 @@ JWT_EXPIRES_IN=1d # ou '2h'
 BCRYPT_SALT_ROUNDS=10
 ```
 
-**Nunca** commit esse arquivo no repositório — adicione ao `.gitignore`.
+> **Nunca** commit esse arquivo no repositório — adicione ao `.gitignore`.
 
 ---
 
@@ -320,7 +358,6 @@ paths:
 * [ ] Armazenamento seguro das chaves (vault, variáveis de ambiente)
 
 ---
-
 ## Referências úteis
 
 * bcryptjs — [https://www.npmjs.com/package/bcryptjs](https://www.npmjs.com/package/bcryptjs)
@@ -329,11 +366,3 @@ paths:
 * Implementação de exemplo com Swagger — adapte o README anterior para documentar essas rotas.
 
 ---
-
-Se quiser, eu posso:
-
-* Gerar os arquivos de exemplo prontos (controllers, services, middlewares) em um scaffold.
-* Criar a especificação OpenAPI completa (YAML) para essas rotas.
-* Adicionar exemplos de testes com Jest + Supertest.
-
-Diga o que prefere que eu crie a seguir.
