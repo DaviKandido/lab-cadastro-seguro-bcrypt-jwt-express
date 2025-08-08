@@ -15,6 +15,7 @@
 Utilizaremos:
 ```js
  bcrypt.hash() → Para criar o hash antes de salvar no banco
+ bcrypt.genSalt() → Para gerar um hash mais seguro 
  bcrypt.compare() → Para verificar se a senha informada pelo usuário corresponde ao hash armazenado
 ```
 
@@ -37,6 +38,7 @@ Utilizaremos:
 ```js
  jwt.sign() → para gerar o token
  jwt.verify() → para validar o token recebido do cliente
+ jwt.decoded() → para retornar o payload
 ```
 
 * [Implementação passo a passo do JWT](/jwt_na_pratica)

@@ -7,6 +7,7 @@
 Utilizaremos:
 ```js
  bcrypt.hash() → Para criar o hash antes de salvar no banco
+ bcrypt.genSalt() → Para gerar um hash mais seguro 
  bcrypt.compare() → Para verificar se a senha informada pelo usuário corresponde ao hash armazenado
 ```
 
@@ -14,8 +15,9 @@ Utilizaremos:
 
 ### Instalação de dependências:
 
-
 ```js
  npm install bcryptjs
 ```
 > Use `bcryptjs` por compatibilidade; `bcrypt` (C++) também funciona mas pode exigir build tools.
+
+Iniciaremos 

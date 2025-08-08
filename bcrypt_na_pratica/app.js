@@ -11,7 +11,7 @@ const users = [
 
 // Função para gerar o hash
 async function hashSenha(senha) {
-
+    
     // A função do salt gera um hash mais seguro, quanto maior o salt, mais seguro.
     // No entanto salts maiores exigem mais processamento.
     const salt = await bcrypt.genSalt(10);
