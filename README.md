@@ -365,6 +365,5 @@ paths:
 * bcryptjs — [https://www.npmjs.com/package/bcryptjs](https://www.npmjs.com/package/bcryptjs)
 * jsonwebtoken — [https://www.npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 * OWASP Authentication Cheat Sheet — [https://cheatsheetseries.owasp.org/](https://cheatsheetseries.owasp.org/)
-* Implementação de exemplo com Swagger — adapte o README anterior para documentar essas rotas.
-
+* Implementação de exemplo com Swagger - [git@github.com:webtech-network/lab-documentacao-swagger-express.git](git@github.com:webtech-network/lab-documentacao-swagger-express.git)
 ---
