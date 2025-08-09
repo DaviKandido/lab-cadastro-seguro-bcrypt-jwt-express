@@ -57,13 +57,15 @@ async function fluxoUsuario(){
 
         await cadastroUsuario('user4@gmail.com', '123456');
         
-        //const loginCerto = await loginUsuario("user4@gmail.com", "123456");
+        const loginCerto = await loginUsuario("user4@gmail.com", "123456");
         //console.log("Retorno: ", loginCerto);
 
 
         // Exemplo de login com usuário inexistente
-        const loginErrado = await loginUsuario("userInexistente@gmail.com", "876543");
-        console.log("Retorno: ", loginErrado);
+        //const loginErrado = await loginUsuario("userInexistente@gmail.com", "876543");
+
+        users.forEach((user, i) => console.log(`user${i}: `, user));
+        //console.log("Retorno: ", loginErrado);
     }catch(err){
         console.log("Erro:", err.message);
     }
