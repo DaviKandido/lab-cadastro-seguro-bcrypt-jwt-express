@@ -10,7 +10,7 @@
 
 # O que é o bcrypt e como será utilizado?
 
- O bcrypt é uma biblioteca para gerar hashes seguros de senhas, tornando-as ilegíveis no banco de dados.No entanto primeiramente entender o conceito de hash, que nada mais é que um processo unidirecional que transforma uma senha em uma sequência única e irreversível. Mesmo que o banco seja invadido, não será possível obter a senha original a partir do hash. O bcrypt aplica o salt, que adiciona aleatoriedade ao hash, dificultando ataques como rainbow tables.
+ O bcrypt é uma biblioteca para gerar hashes seguros de senhas, tornando-as ilegíveis no banco de dados. No entanto primeiramente entender o conceito de hash, que nada mais é que um processo unidirecional que transforma uma senha em uma sequência única e irreversível. Mesmo que o banco seja invadido, não será possível obter a senha original a partir do hash. O bcrypt aplica o salt, que adiciona aleatoriedade ao hash, dificultando ataques como rainbow tables.
 
 Utilizaremos:
 ```js
@@ -41,8 +41,11 @@ Utilizaremos:
  jwt.decoded() → para retornar o payload
 ```
 
+##### Veja uma explicação e implementação passo a passo do JWT em:
+
 * [Implementação passo a passo do JWT](/jwt_na_pratica)
 
+# Projeto Prático
 
 ## Objetivo
 

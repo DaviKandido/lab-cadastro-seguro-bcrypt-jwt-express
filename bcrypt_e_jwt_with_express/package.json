@@ -1,0 +1,29 @@
+{
+  "name": "bcrypt_e_jwt_with_express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "db:cli": "sudo docker exec -it postgres-seguro psql -U postgres -d cadastro_db",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate && npm run db:seed",
+    "db:drop": "sudo docker exec -it postgres-seguro psql -U postgres -c 'DROP DATABASE IF EXISTS cadastro_db;'",
+    "db:create": "sudo docker exec -it postgres-seguro psql -U postgres -c 'CREATE DATABASE cadastro_db;'",
+    "db:migrate": "npx knex migrate:latest ",
+    "db:seed": "npx knex seed:run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
