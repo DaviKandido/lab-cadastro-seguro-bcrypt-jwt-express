@@ -14,6 +14,7 @@
  */
 
 import dotenv from "dotenv";
+import ApiError from "./utils/errorHandler.util.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ const PORT = process.env.PORT || 3000;
 app.use((req, res, next) => {
   const error = new ApiError("Page not found!", 404, [
     {
+      method: req.method,
       path: req.url,
       message: "Page not found!",
     },

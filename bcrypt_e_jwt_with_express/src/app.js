@@ -20,12 +20,31 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware de logging
 app.use((req, res, next) => {
   console.log(
     `${new Date().toLocaleString()} | Requisição: ${req.method} ${req.url}`
   );
   next();
 });
+
+import authRoutes from "./routes/auth.routes.js";
+import profileRoutes from "./routes/user.routes.js";
+
+// Rotas
+app.root = "/api";
+
+// Rotas de autenticação - cadastro e login
+app.use(`${app.root}/auth`, authRoutes);
+
+// Rota protegida - exige token válido
+app.use(`${app.root}/profile`, profileRoutes);
+
+
+
+// Rotas de documentação
+import docs from "./docs/index.docs.js";
+app.use(`/`, docs);
 
 
 export default app;
