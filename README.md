@@ -88,6 +88,6 @@ Criar rotas REST seguras para:
 
 # Contato
 
-📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
-💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
-🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
+* 📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
+* 💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
+* 🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)

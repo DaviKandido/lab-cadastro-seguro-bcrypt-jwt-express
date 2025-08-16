@@ -821,12 +821,10 @@ router.get("/", authMiddleware, profileController.getProfile);
 * Escreva testes automatizados (jest + supertest) cobrindo cenários: cadastro duplicado, login inválido, token expirado, acesso sem token.
 
 ---
-
 # Contato
 
-📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
-💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
-🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
-
+* 📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
+* 💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
+* 🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
 
 
