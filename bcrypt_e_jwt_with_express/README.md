@@ -824,8 +824,8 @@ router.get("/", authMiddleware, profileController.getProfile);
 
 # Contato
 
-📧 **Email:** [davikandido12@gmail.com](mailto:davicandidopucminas@gmail.com)
-💼 **LinkedIn:** [linkedin.com/in/davi-candido](www.linkedin.com/in/davi-candido-de-almeida)
+📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
+💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
 🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
 
 

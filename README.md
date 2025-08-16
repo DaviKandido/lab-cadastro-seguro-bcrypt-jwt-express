@@ -31,7 +31,7 @@ Utilizaremos:
 
 📖 Veja a explicação e implementação passo a passo do bcrypt em:
 
-* [🔗 Implementação passo a passo do bcrypt](/bcrypt_na_pratica)
+- [🔗 Implementação passo a passo do bcrypt](/bcrypt_na_pratica)
 
 ---
 
@@ -41,9 +41,9 @@ O **JWT (JSON Web Token)** é um padrão para **autenticação e troca segura de
 
 Ele é composto por três partes:
 
-* 🏷️ **Header** — tipo do token e algoritmo usado
-* 📦 **Payload** — informações do usuário (id, e-mail, etc.)
-* ✍️ **Signature** — garante que o token não foi alterado
+- 🏷️ **Header** — tipo do token e algoritmo usado
+- 📦 **Payload** — informações do usuário (id, e-mail, etc.)
+- ✍️ **Signature** — garante que o token não foi alterado
 
 ⚡ Após o login, o servidor gera um **token JWT** que será enviado pelo cliente em cada requisição, permitindo acesso a rotas protegidas sem precisar reenviar login e senha a cada vez.
 
@@ -57,7 +57,7 @@ Utilizaremos:
 
 📖 Veja a explicação e implementação passo a passo do JWT em:
 
-* [🔗 Implementação passo a passo do JWT](/jwt_na_pratica)
+- [🔗 Implementação passo a passo do JWT](/jwt_na_pratica)
 
 ---
 
@@ -67,21 +67,27 @@ Utilizaremos:
 
 Criar rotas REST seguras para:
 
-* 👤 **Cadastro de usuário** — `POST /api/auth/register` ➝ salvar usuário com senha hasheada
-* 🔑 **Login / Autenticação** — `POST /api/auth/login` ➝ verificar credenciais e emitir JWT
-* 🔐 **Rota protegida de exemplo** — `GET /api/profile` ➝ exige token válido
+- 👤 **Cadastro de usuário** — `POST /api/auth/register` ➝ salvar usuário com senha hasheada
+- 🔑 **Login / Autenticação** — `POST /api/auth/login` ➝ verificar credenciais e emitir JWT
+- 🔐 **Rota protegida de exemplo** — `GET /api/profile` ➝ exige token válido
 
 📖 Veja a implementação completa em:
 
-* [🔗 Implementação do projeto](/bcrypt_e_jwt_with_express)
+- [🔗 Implementação do projeto](/bcrypt_e_jwt_with_express)
 
 ---
 
 ## 📚 Referências úteis
 
-* 🔐 bcryptjs — [https://www.npmjs.com/package/bcryptjs](https://www.npmjs.com/package/bcryptjs)
-* 🪪 jsonwebtoken — [https://www.npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-* 🛡️ OWASP Authentication Cheat Sheet — [https://cheatsheetseries.owasp.org/](https://cheatsheetseries.owasp.org/)
-* 📑 Exemplo com Swagger — [https://github.com/webtech-network/lab-documentacao-swagger-express.git](https://github.com/webtech-network/lab-documentacao-swagger-express.git)
+- 🔐 bcryptjs — [https://www.npmjs.com/package/bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- 🪪 jsonwebtoken — [https://www.npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- 🛡️ OWASP Authentication Cheat Sheet — [https://cheatsheetseries.owasp.org/](https://cheatsheetseries.owasp.org/)
+- 📑 Exemplo com Swagger — [https://github.com/webtech-network/lab-documentacao-swagger-express.git](https://github.com/webtech-network/lab-documentacao-swagger-express.git)
 
 ---
+
+# Contato
+
+📧 **Email:** [davicandidopucminas@gmail.com](mailto:davicandidopucminas@gmail.com)
+💼 **LinkedIn:** [www.linkedin.com/in/davi-candido-de-almeida](www.linkedin.com/in/davi-candido-de-almeida)
+🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
