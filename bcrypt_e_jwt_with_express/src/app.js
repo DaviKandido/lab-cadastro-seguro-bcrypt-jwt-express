@@ -29,9 +29,12 @@ app.use((req, res, next) => {
 });
 
 import authRoutes from "./routes/auth.routes.js";
-import profileRoutes from "./routes/user.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
-// Rotas
+
+
+
+// Root
 app.root = "/api";
 
 // Rotas de autenticação - cadastro e login
@@ -42,9 +45,15 @@ app.use(`${app.root}/profile`, profileRoutes);
 
 
 
+
+app.docs = "/docs";
+
 // Rotas de documentação
-import docs from "./docs/index.docs.js";
-app.use(`/`, docs);
+import docsSwagger from "./docs/swagger.docs.js";
+app.use(`${app.docs}/swagger`, docsSwagger);
+
+import docsIndex from "./docs/index.docs.js";
+app.use(`${app.docs}`, docsIndex);
 
 
 export default app;

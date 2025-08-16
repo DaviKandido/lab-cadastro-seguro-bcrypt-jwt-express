@@ -46,13 +46,15 @@ NODE_ENV=development
 src/
  ├── controllers/
  │    ├──auth.controller.js
- │    └──user.controller.js
+ │    └──profile.controller.js
  ├── db/
  │    ├──migrations/
  │    |   └──user.create.js
  │    ├──seeds/
  │    │   └──user.seed.js
  │    └─ db.js
+ ├── docs/
+ │    └── swagger.docs.json
  ├── middlewares/
  │    ├──auth.middleware.js
  │    └──validateSchema.middleware.js
@@ -60,7 +62,7 @@ src/
  │    └──user.model.js
  ├──routes/
  │    ├──auth.routes.js
- │    └──user.routes.js
+ │    └──profile.routes
  ├──repository/
  │   └── user.repository.js
  ├──utils/
@@ -135,7 +137,7 @@ Execute o inicializador do knex em seu projeto, vera que um arquivo chamado knex
 npx knex init
 ```
 
-> Lembre-se que estamos utilizando ES6, estão como boa pratica alteraremos o nosso do nosso arquivo de `knexfile.js` para `knexfile.mjs`
+> Lembre-se que estamos utilizando ES6, estão como boa pratica alteraremos o nome do nosso arquivo de `knexfile.js` para `knexfile.mjs`
 
 Faça a configuração de conexão com o nosso banco de dados, no `knexfile.mjs` faça algo parecido com isso, lembre que estamos usando ES6 então alguns configurações de exportações deve ser alteras, veja:
 
@@ -390,13 +392,13 @@ export default userRepository;
 
 ### Controllers
 
-Quanto ao nosso controlles iremos gerar um aquivo chama `auth.controller.js` em `src/controllers`, com a seguinte estrutura:
+Quanto aos nossos controlles iremos gerar um aquivo chama `auth.controller.js` em `src/controllers`, com a seguinte estrutura:
 
 ```js
 import userRepository from "../repositories/user.repository.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import ApiError from "../utils/errorHandler.js";
+import ApiError from "../utils/errorHandler.util.js";
 
 // Secret key for JWT
 const SECRET = process.env.JWT_SECRET || "secret";
@@ -426,7 +428,7 @@ const login = async (req, res, next) => {
       );
     }
 
-    const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id, user: user.name, email: user.email }, SECRET, { expiresIn: "1h" });
 
     res.status(200).json({
       message: "User logged in successfully",
@@ -478,7 +480,7 @@ export default {
 
 ### Routes
 
-Agora iremos definir o aquivo de rotas e o chamaremos em nosso `app.js`, segue o exemplo abaixo:
+Agora iremos definir o aquivo de rotas, `auth.routes.js` e o chamaremos em nosso `app.js`, segue o exemplo abaixo:
 
 ```js
 import express from "express";
@@ -494,7 +496,7 @@ router.post("/login", validateSchema(loginSchema), authController.login);
 export default router;
 ```
 
-Também aproveitaremos para já deixar definida uma rota protegida que logo implementaremos tal proteção:
+Também aproveitaremos para já deixar definida uma rota protegida que logo em seguida implementaremos tal proteção:
 
 ```js
 import express from "express";
@@ -527,12 +529,304 @@ export default app;
 
 ---
 
-
 # Desenvolvimento de Rota Protegida
+
+# Middleware de Autenticação
 
 Para a proteção de rotas a primeira coisa que teremos que fazer é a criação de um middleware que será responsável por essa proteção, validando ou não o token passado pelo usuário
 
 ```js
+import jwt from "jsonwebtoken";
+import ApiError from "../utils/errorHandler.util.js";
 
+function authMiddleware(req, res, next) {
+  try {
+    // Pega o token do header
+    const tokenHeader = req.headers.authorization;
 
+    // Verifica se o token existe - se não, retorna erro
+    const token = tokenHeader && tokenHeader.split(" ")[1];
+
+    if (!token) {
+      return next(
+        new ApiError("Token not found", 401, { token: "Token not found" })
+      );
+    }
+
+    // Verifica se o token é valido - se não, retorna erro
+    jwt.verify(token, process.env.JWT_SECRET || "secret", (error, decoded) => {
+      if (error) {
+        return next(
+          new ApiError("Error authenticating user", 401, error.message)
+        );
+      }
+      // Se o token é valido, adiciona o user ao request
+      req.user = decoded;
+
+      // Continua para a rota seguinte
+      next();
+    });
+  } catch (error) {
+    return next(new ApiError("Error authenticating user", 401, error.message));
+  }
+}
+
+export default authMiddleware;
 ```
+
+# Controller Protegido
+
+Agora iremos criar um controller que retornara dados do usuário se o token for valido, segue o exemplo abaixo:
+
+```js
+import ApiError from "../utils/errorHandler.util.js";
+
+// Controllers
+const getProfile = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return next(
+        new ApiError("Users not found", 404, {
+          user: "Users not found",
+        })
+      );
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(new ApiError("Error getting Profile user", 500, error.message));
+  }
+};
+
+export default {
+  getProfile,
+};
+```
+
+# Rota Protegido
+
+Portanto para implementar essa proteção, ou seja garantirmos que somente usuarios logados possam acessar essa rota, basta adicionar o middleware de autenticação entre o inicio da rota e o final da rota, ou seja entre `/api/profile` e `getProfile`, segue o exemplo abaixo:
+
+```js
+import express from "express";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import profileController from "../controllers/profile.controller.js";
+
+const router = express.Router();
+
+router.get("/", authMiddleware, profileController.getProfile);
+
+export default router;
+```
+
+# Documentação OpenAPI/Swagger
+
+Agora como bonus iremos implementar uma documentação OpenAPI/Swagger que aborde as nossas rotas com atributos que indiquem se a rota precisa de autenticação, crie um arquivo chamado `swagger.docs.js` em `src/docs` e segue o exemplo abaixo:
+
+```js
+import express from "express";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+
+const app = express();
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Cadastro de Usuários",
+      version: "1.0.0",
+    },
+  },
+  apis: ["./src/routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
+app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+
+export default app;
+```
+
+# Documentando as Rotas
+
+Agora iremos documentar as nossas rotas, segue o exemplo abaixo:
+
+- Rotas de Autenticação:
+
+```js
+/**
+ * @openapi
+ * /api/auth/register:
+ *   post:
+ *     summary: Registra um novo usuário
+ *     tags:
+ *       - Autenticação
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 example: "Davi Cândido"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "usuario@email.com"
+ *               senha:
+ *                 type: string
+ *                 format: password
+ *                 example: "123456"
+ *             required:
+ *               - nome
+ *               - email
+ *               - senha
+ *     responses:
+ *       '201':
+ *         description: Usuário criado com sucesso
+ *       '400':
+ *         description: Dados inválidos
+ */
+router.post("/register", validateSchema(signUpSchema), authController.signUp);
+
+/**
+ * @openapi
+ * /api/auth/login:
+ *   post:
+ *     summary: Realiza login e retorna JWT
+ *     tags:
+ *       - Autenticação
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "usuario@email.com"
+ *               senha:
+ *                 type: string
+ *                 format: password
+ *                 example: "123456"
+ *             required:
+ *               - email
+ *               - senha
+ *     responses:
+ *       '200':
+ *         description: Login realizado com sucesso, retorna token JWT
+ *       '401':
+ *         description: Credenciais inválidas
+ */
+router.post("/login", validateSchema(loginSchema), authController.login);
+```
+
+- Rota Protegida:
+
+```js
+/**
+ * @openapi
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
+/**
+ * @openapi
+ * /api/profile:
+ *   get:
+ *     summary: Retorna o perfil do usuário autenticado
+ *     tags:
+ *       - Autenticação
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Perfil do usuário retornado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: "123e4567-e89b-12d3-a456-426614174000"
+ *                 nome:
+ *                   type: string
+ *                   example: "Davi Cândido"
+ *                 email:
+ *                   type: string
+ *                   example: "usuario@email.com"
+ *       '401':
+ *         description: Token inválido ou não fornecido
+ *       '404':
+ *         description: Usuário não encontrado
+ */
+router.get("/", authMiddleware, profileController.getProfile);
+```
+
+---
+
+# O que fizemos?
+
+- **Criptografia de Senha**: Usamos `bcrypt` para criptografia de senhas.
+- **Autenticação**: Usamos `JSON Web Tokens (JWT)` para autenticação baseada em token.
+- **Documentação**: Usamos `swagger-jsdoc` e `swagger-ui-express` para documentação OpenAPI/Swagger.
+- **Middlewares**: Usamos middlewares para tratamento de erros assíncronos.
+- **Dependências**: Usar `npm` para gerenciamento de dependências e versões.
+
+
+## Checklist de segurança rápida
+
+* [ ] Senha hasheada com salt
+* [ ] Token com expiração definida
+* [ ] Validação dos dados de entrada
+* [ ] Armazenamento seguro das chaves (vault, variáveis de ambiente)
+
+# Dicas de Projeto Para ir Além
+
+- **Testes**: Usar `jest` e `supertest` para testes unitários.
+- **Linting**: Usar `eslint` para linting (verificação de erros e padronização) de código.
+- **Formatação**: Usar `prettier` para formatação de código.
+
+---
+
+## Erros comuns e como resolver
+
+* **Senha comparada incorretamente** — lembre de usar `await bcrypt.compare(...)`.
+* **Token inválido** — verifique `JWT_SECRET` consistente entre emissão e verificação.
+* **CORS** — configure CORS se cliente e API rodarem em origens diferentes.
+* **Problemas com env** — confirme variáveis carregadas via `dotenv.config()`.
+
+---
+
+## Testes e inspeção
+
+* Teste endpoints com **Postman** ou **Insomnia**.
+* Teste o fluxo:
+
+  1. `POST /api/auth/register` — criar usuário
+  2. `POST /api/auth/login` — receber token
+  3. `GET /api/profile` com header `Authorization: Bearer <token>` — acessar rota protegida
+* Escreva testes automatizados (jest + supertest) cobrindo cenários: cadastro duplicado, login inválido, token expirado, acesso sem token.
+
+---
+
+# Contato
+
+📧 **Email:** [davikandido12@gmail.com](mailto:davicandidopucminas@gmail.com)
+💼 **LinkedIn:** [linkedin.com/in/davi-candido](www.linkedin.com/in/davi-candido-de-almeida)
+🐙 **GitHub:** [github.com/DaviKandido](https://github.com/DaviKandido)
+
+
+
