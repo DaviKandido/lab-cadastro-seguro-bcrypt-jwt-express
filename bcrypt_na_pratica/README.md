@@ -15,7 +15,7 @@ Utilizaremos:
 
 ### ⚙️ Instalação de dependências
 
-```js
+```sh
  npm install bcryptjs
 ```
 

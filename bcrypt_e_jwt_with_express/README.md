@@ -28,7 +28,7 @@ npm install swagger-ui-express swagger-jsdoc
 
 ## Variáveis de ambiente (exemplo .env)
 
-```
+```bash
 PORT=3000
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
@@ -42,7 +42,7 @@ NODE_ENV=development
 
 ## Estrutura mínima sugerida
 
-```
+```bash
 src/
  ├── controllers/
  │    ├──auth.controller.js
@@ -77,7 +77,7 @@ knexfile.msj
 
 ---
 
-## Intancia do nosso docker
+## Instância do nosso docker
 
 Na raiz do projeto defina nossa instancia do postgresQL através do docker, crie o arquivo `docker-compose.yml`, exemplo abaixo:
 
@@ -115,7 +115,7 @@ docker compose up -d #Flag para manter o docker ativo (independente do terminal)
 sudo docker compose up -d
 ```
 
-Caso seja utilizado outras versões do docker talvez seja necessário acrescentar um " - "(hífen) entre os comandos de docker e composer, como exemplificado a baixo:
+Caso seja utilizado outras versões do docker talvez seja necessário acrescentar um " - "(hífen) entre os comandos de docker e composer, como exemplificado abaixo:
 
 **Windows**
 
@@ -139,7 +139,7 @@ npx knex init
 
 > Lembre-se que estamos utilizando ES6, estão como boa pratica alteraremos o nome do nosso arquivo de `knexfile.js` para `knexfile.mjs`
 
-Faça a configuração de conexão com o nosso banco de dados, no `knexfile.mjs` faça algo parecido com isso, lembre que estamos usando ES6 então alguns configurações de exportações deve ser alteras, veja:
+Faça a configuração de conexão com o nosso banco de dados, no `knexfile.mjs` faça algo parecido com isso, lembre que estamos usando ES6 então alguns configurações de exportações deve ser alteradas, veja:
 
 ```js
 // mude module.export para export default, crie primeiro const config = {...},
@@ -191,7 +191,7 @@ const config = {
 export default config; // exportação por ES6
 ```
 
-Posterior a isso crie um arquivo chamado `db.js`, dentro da pasta `db/` , que será responsável por fazer justamente essa conexão com nosso banco de dados, veja a baixo:
+Posterior a isso crie um arquivo chamado `db.js`, dentro da pasta `db/` , que será responsável por fazer justamente essa conexão com nosso banco de dados, veja abaixo:
 
 ```js
 import knexConfig from "../../knexfile.mjs";
@@ -213,7 +213,7 @@ Antes de iniciar nosso migrations vamos definir a estrutura da tabela de usuári
  npx knex migrate:make create_users
 ```
 
-Um arquivo chamado `<codigo_de_controle>_create_users.js` será gerado em `db/migrations`, la que definiremos a estrutura da nossa tabela de usuários, veja:
+Um arquivo chamado `<codigo_de_controle>_create_users.js` será gerado em `db/migrations`, onde definiremos a estrutura da nossa tabela de usuários, veja:
 
 ```js
 /**
@@ -250,7 +250,7 @@ Em seguida basta executar o migrations:
 
 ## Execução das seeds
 
-Também definiremos seeds para popular nosso banco com alguns usuários inicias, eles serão importantes para explicarmos como a inclusão das bibliotecas de criptografia atuarão sobre os novos registros, execute:
+Também definiremos seeds para popular nosso banco com alguns usuários iniciais, eles serão importantes para explicarmos como a inclusão das bibliotecas de criptografia atuarão sobre os novos registros, execute:
 
 ```sh
 npx knex seed:make user.seed
@@ -288,7 +288,7 @@ export const seed = async (knex) => {
 
 ## Automatizando Comando Padrões via package.json
 
-Uma boa pratica para projetos back-end node é armazenar/criar scripts que serão executados recorrentemente em nosso servidor para isso criaremos em nosso `package.json`, uma seção de scripts comuns, veja:
+Uma boa prática para projetos back-end node é armazenar/criar scripts que serão executados recorrentemente em nosso servidor para isso criaremos em nosso `package.json`, uma seção de scripts comuns, veja:
 
 ## 💻 Versão para Linux
 
@@ -392,7 +392,7 @@ export default userRepository;
 
 ### Controllers
 
-Quanto aos nossos controlles iremos gerar um aquivo chama `auth.controller.js` em `src/controllers`, com a seguinte estrutura:
+Quanto aos nossos controlles iremos gerar um arquivo chama `auth.controller.js` em `src/controllers`, com a seguinte estrutura:
 
 ```js
 import userRepository from "../repositories/user.repository.js";
@@ -480,7 +480,7 @@ export default {
 
 ### Routes
 
-Agora iremos definir o aquivo de rotas, `auth.routes.js` e o chamaremos em nosso `app.js`, segue o exemplo abaixo:
+Agora iremos definir o arquivo de rotas, `auth.routes.js` e o chamaremos em nosso `app.js`, segue o exemplo abaixo:
 
 ```js
 import express from "express";
@@ -576,7 +576,7 @@ export default authMiddleware;
 
 # Controller Protegido
 
-Agora iremos criar um controller que retornara dados do usuário se o token for valido, segue o exemplo abaixo:
+Agora iremos criar um controller que retornara dados do usuário se o token for válido, segue o exemplo abaixo:
 
 ```js
 import ApiError from "../utils/errorHandler.util.js";

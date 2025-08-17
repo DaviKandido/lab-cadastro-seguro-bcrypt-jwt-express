@@ -22,7 +22,7 @@ Utilizaremos:
 
 ### ⚙️ Instalação de dependências
 
-```js
+```sh
  npm install bcryptjs
 
  npm install jsonwebtoken
@@ -32,7 +32,7 @@ Utilizaremos:
 
 ### 🚀 Iniciando o projeto
 
-Antes de iniciamos é preciso entender que esse projeto é uma continuação direta do guia "Guia de Desenvolvimento — Entendendo o bcrypt", caso não o tenha visto antes volte e veja os seus conceitos antes de continua.
+Antes de iniciarmos é preciso entender que esse projeto é uma continuação direta do guia "Guia de Desenvolvimento — Entendendo o bcrypt", caso não o tenha visto antes volte e veja os seus conceitos antes de continua.
 
 - [Guia de Desenvolvimento — Entendendo o bcrypt](../bcrypt_na_pratica/)
 
@@ -113,7 +113,6 @@ async function fluxoUsuario() {
     console.log("Erro:", err.message);
   }
 }
-
 fluxoUsuario();
 ```
 
