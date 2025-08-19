@@ -6,13 +6,13 @@ const router = express.Router();
 
 /**
  * @fileoverview Rotas de perfil
- * @module routes/profile
+ * @module api/profile
  * @author Davi Cândido
  * @github https://github.com/daviKandido
  * @license MIT
- * @version 1.0.0
- * @since 1.0.0
- * @exports module:routes/profile
+ * @version 1.0.1
+ * @since 1.0.1
+ * @exports module:api/profile
  * 
  */
 

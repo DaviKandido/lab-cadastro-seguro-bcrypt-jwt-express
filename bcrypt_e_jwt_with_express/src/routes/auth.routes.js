@@ -7,13 +7,13 @@ const router = express.Router();
 
 /**
  * @fileoverview Rotas de autenticação
- * @module routes/auth
+ * @module api/auth
  * @author Davi Cândido
  * @github https://github.com/daviKandido
  * @license MIT
  * @version 1.0.0
  * @since 1.0.0
- * @exports module:routes/auth
+ * @exports module:api/auth
  * 
  */
 
