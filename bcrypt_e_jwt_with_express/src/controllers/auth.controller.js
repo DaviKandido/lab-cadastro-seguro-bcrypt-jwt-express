@@ -38,7 +38,7 @@ const login = async (req, res, next) => {
       token: token,
     });
   } catch (error) {
-    next(new ApiError("Error logging in", 400, error.message));
+    next(new ApiError("Error logging in", 500, error.message));
   }
 };
 
@@ -50,7 +50,7 @@ const signUp = async (req, res, next) => {
 
     if (user) {
       return next(
-        new ApiError("User already exists", 400, {
+        new ApiError("User already exists", 409, {
           email: "User already exists",
         })
       );
@@ -69,7 +69,7 @@ const signUp = async (req, res, next) => {
       user: newUser,
     });
   } catch (error) {
-    next(new ApiError("Error creating user", 400, error.message));
+    next(new ApiError("Error creating user", 500, error.message));
   }
 };
 
